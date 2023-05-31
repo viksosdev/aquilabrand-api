@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
+const fetch = require('node-fetch');
 
 const app = express();
 const port = 3000;
