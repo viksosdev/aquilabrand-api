@@ -114,7 +114,7 @@ app.get('/bd-productos', (req, res) => { //obtener productos y carritos de compr
         category_condition = 'product.category_id = ' + req.body.category;
     }
     if(req.body.filtros == null){ // si no se especifican filtros, se ejecuta la query por defecto
-    conexion.query('SELECT DISTINCT products.PRODUCT_ID, products.PRODUCT_NAME, products.PRODUCT_DESCRIPTION, images.IMAGE_PATH, inventory.PRECIO, category.CATEGORY_NAME, category.CATEGORY_ID FROM images, inventory, products, category WHERE products.PRODUCT_ID = inventory.PRODUCT_ID AND category.CATEGORY_ID = products.CATEGORY_ID;', (error, result) => { //HACER que se haga una query especifica segun lo que cambia);
+    /*conexion.query('SELECT DISTINCT products.PRODUCT_ID, products.PRODUCT_NAME, products.PRODUCT_DESCRIPTION, images.IMAGE_PATH, inventory.PRECIO, category.CATEGORY_NAME, category.CATEGORY_ID FROM images, inventory, products, category WHERE products.PRODUCT_ID = inventory.PRODUCT_ID AND category.CATEGORY_ID = products.CATEGORY_ID;', (error, result) => { //HACER que se haga una query especifica segun lo que cambia);
         if (error){
             console.error('Error al realizar la consulta: ', error);
             return;
@@ -128,17 +128,17 @@ app.get('/bd-productos', (req, res) => { //obtener productos y carritos de compr
             return;
         }
         res.send(result);
-    });
+    });*/
 }});
 
 app.post('/bd-productos', (req, res) => { //guardar carro de compras en la bd con su token
-    conexion.query('INSERT INTO productos SET ?', req.body, (error, result) => {
+    /*conexion.query('INSERT INTO productos SET ?', req.body, (error, result) => {
         if (error){
             console.error('Error al realizar la consulta: ', error);
             return;
         }
         res.send(result);
-    });
+    });*/
 });
 
 //#endregion
