@@ -6,9 +6,9 @@ const app = express();
 const port = 3000;
 
 conexion = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Aquila2023',
+    host: 'db4free.net',
+    user: 'coitoscrew',
+    password: 'coitosporsiempre2023',
     database: 'aquilabrand'
 });
 
