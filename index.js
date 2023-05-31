@@ -33,10 +33,10 @@ app.use(cors());
 
 
 //#region headers (headers con info de la tienda)
-const myHeaders = new Headers();
-myHeaders.append("Tbk-Api-Key-Id", "597055555532");
-myHeaders.append("Tbk-Api-Key-Secret", "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C");
-myHeaders.append("Content-Type", "application/json");
+//const myHeaders = new Headers();
+//myHeaders.append("Tbk-Api-Key-Id", "597055555532");
+//myHeaders.append("Tbk-Api-Key-Secret", "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C");
+//myHeaders.append("Content-Type", "application/json");
 
 const requestOptions = { 
     http_version: "HTTP/2.0",
@@ -50,7 +50,11 @@ app.post('/final-checkout', (req, res) => {
     fetch("https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions", { 
         method: "POST",
         requestOptions,
-        headers: myHeaders,
+        headers: {
+            "Tbk-Api-Key-Id": "597055555532",
+            "Tbk-Api-Key-Secret": "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C",
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(req.body)
     })
     .then(response => response.json())
