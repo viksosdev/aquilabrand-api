@@ -120,26 +120,27 @@ app.post("/bd-info", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/bd-productos", (req, res) => {
-	//obtener productos y carritos de compra de la bd.
+	//obtener productos y carritos de compra de la bd, LOS VALORES EN EL BODY DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
 	if (req.body.category != null) {
-		categoria = "AND product.category_id = " + req.body.category;
+		categoria = "AND CATEGORY.CATEGORY_NAME = " + req.body.category;
 	}
 	if (req.body.section != null) {
-		seccion = "AND product.SECTION_ID = " + req.body.section;
+		seccion = "AND SECTION.SECTION_NAME = " + req.body.section;
 	}
 	if (req.body.color != null) {
-		color = "AND inventory.COLOR_ID = " + req.body.color;
+		color = "AND COLORS.COLOR_NAME = " + req.body.color;
 	}
 	if (req.body.size != null) {
-		talla = "AND inventory.SIZE_ID = " + req.body.size;
+		talla = "AND SIZES.SIZE_NAME = " + req.body.size;
 	}
 
 	conexion.query(
-		"SELECT DISTINCT products.PRODUCT_ID, products.PRODUCT_NAME, products.PRODUCT_DESCRIPTION, images.IMAGE_PATH, inventory.PRECIO, category.CATEGORY_NAME FROM images, inventory, products, category, section WHERE products.PRODUCT_ID = inventory.PRODUCT_ID AND category.CATEGORY_ID = products.CATEGORY_ID " +
+		"SELECT DISTINCT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID" +
 			categoria +
 			seccion +
 			color +
-			talla,
+			talla +
+			";",
 		(error, result) => {
 			if (error) {
 				console.error("Error al realizar la consulta: ", error);
