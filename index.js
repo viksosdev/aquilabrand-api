@@ -119,6 +119,7 @@ app.post("/bd-info", (req, res) => {
 
 app.get("/bd-productos", (req, res) => {
     console.log(req.headers.category);
+    console.log(categoria);
     let categoria = " ";
     let seccion = " ";
     let color = " ";
@@ -153,6 +154,8 @@ app.get("/bd-productos", (req, res) => {
       res.send(result);
     }
   );
+
+  console.log(categoria);
 });
 
 app.post("/bd-productos", (req, res) => {
