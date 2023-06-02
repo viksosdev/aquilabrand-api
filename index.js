@@ -119,11 +119,11 @@ app.post("/bd-info", (req, res) => {
 
 app.get("/bd-productos", (req, res) => {
     console.log(req.headers.category);
-    console.log(categoria);
     let categoria = " ";
     let seccion = " ";
     let color = " ";
     let talla = " ";
+    console.log(categoria);
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
   if (req.headers.color != undefined || req.headers.color != null || req.headers.color != "0") {
     color = " AND COLORS.COLOR_NAME = " + req.headers.color;
