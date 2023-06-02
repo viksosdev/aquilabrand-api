@@ -126,16 +126,16 @@ app.get("/bd-productos", (req, res) => {
     console.log(categoria);
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
   if (req.headers.color != undefined && req.headers.color != null && req.headers.color != "0") {
-    color = " AND COLORS.COLOR_NAME = " + req.headers.color;
+    color = " AND COLORS.COLOR_NAME = '" + req.headers.color + "'";
   }
   if (req.headers.size != undefined && req.headers.size != null && req.headers.size != "0") {
-    talla = " AND SIZES.SIZE_NAME = " + req.headers.size;
+    talla = " AND SIZES.SIZE_NAME = '" + req.headers.size + "'";
   }
   if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "0") {
-    categoria = " AND CATEGORY.CATEGORY_NAME = " + req.headers.category;
+    categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
   }
   if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "0") {
-    seccion = " AND SECTION.SECTION_NAME = " + req.headers.section;
+    seccion = " AND SECTION.SECTION_NAME = '" + req.headers.section + "'";
   }
 
   conexion.query(
