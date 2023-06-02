@@ -34,12 +34,6 @@ app.use(
 
 app.use(cors());
 
-//#region headers (headers con info de la tienda)
-//const myHeaders = new Headers();
-//myHeaders.append("Tbk-Api-Key-Id", "597055555532");
-//myHeaders.append("Tbk-Api-Key-Secret", "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C");
-//myHeaders.append("Content-Type", "application/json");
-
 const requestOptions = {
   http_version: "HTTP/2.0",
   maxredirects: 10,
@@ -124,7 +118,7 @@ app.post("/bd-info", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/bd-productos", (req, res) => {
-    console.log(req.headers)
+    console.log(req.headers.category)
     let categoria = " ";
     let seccion = " ";
     let color = " ";
