@@ -13,11 +13,6 @@ conexion = mysql.createConnection({
   database: "aquilabrand",
 });
 
-let categoria = " ";
-let seccion = " ";
-let color = " ";
-let talla = " ";
-
 conexion.connect((error) => {
   if (error) {
     console.error("Error al conectar a la base de datos: ", error);
@@ -129,18 +124,23 @@ app.post("/bd-info", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/bd-productos", (req, res) => {
+
+    let categoria = " ";
+    let seccion = " ";
+    let color = " ";
+    let talla = " ";
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
+  if (req.headers.color != null) {
+    color = "AND COLORS.COLOR_NAME = " + req.headers.color;
+  }
+  if (req.headers.size != null) {
+    talla = "AND SIZES.SIZE_NAME = " + req.headers.size;
+  }
   if (req.headers.category != null) {
     categoria = " AND CATEGORY.CATEGORY_NAME = " + req.headers.category;
   }
   if (req.headers.section != null) {
     seccion = " AND SECTION.SECTION_NAME = " + req.headers.section;
-  }
-  if (req.headers.color != null) {
-    color = " AND COLORS.COLOR_NAME = " + req.headers.color;
-  }
-  if (req.headers.size != null) {
-    talla = " AND SIZES.SIZE_NAME = " + req.headers.size;
   }
 
   conexion.query(
