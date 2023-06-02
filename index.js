@@ -124,7 +124,7 @@ app.post("/bd-info", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/bd-productos", (req, res) => {
-
+    console.log(req.headers)
     let categoria = " ";
     let seccion = " ";
     let color = " ";
