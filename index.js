@@ -89,32 +89,6 @@ app.get("/final-checkout", (req, res) => {
 });
 //#endregion
 
-//#region bd-query (obtener datos de la bd)
-app.get("/bd-info", (req, res) => {
-  //obtener info transacciones
-  conexion.query(
-    "SELECT * FROM {tablas} WHERE {condicion}",
-    (error, result) => {
-      if (error) {
-        console.error("Error al realizar la consulta: ", error);
-        return;
-      }
-      res.send(result);
-    }
-  );
-});
-
-app.post("/bd-info", (req, res) => {
-  //guardar carro de compras en la bd con su token
-  conexion.query("INSERT INTO productos SET ?", req.body, (error, result) => {
-    if (error) {
-      console.error("Error al realizar la consulta: ", error);
-      return;
-    }
-    res.send(result);
-  });
-});
-
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/bd-productos", (req, res) => {
@@ -156,15 +130,41 @@ app.get("/bd-productos", (req, res) => {
 });
 
 app.post("/bd-productos", (req, res) => {
-  //guardar carro de compras en la bd con su token
-  /*conexion.query('INSERT INTO productos SET ?', req.body, (error, result) => {
-        if (error){
-            console.error('Error al realizar la consulta: ', error);
-            return;
+  //guardar productos en la base de datos
+
+});
+
+//#endregion
+
+app.get("/transactions", (req, res) => {
+    //obtener transacciones realizadas.
+});
+
+app.post("/transactions", (req, res) => {
+    //guardar transacciones realizadas.
+});
+
+app.get("/get-product", (req, res) => {
+    //obtener producto especifico.
+    let idProduct = " ";
+    if(req.headers.id != undefined && req.headers.id != null){
+        idProduct = " AND PRODUCTS.PRODUCT_ID = '" + req.headers.id + "'";
+    }
+    else{
+        res.send("No se ha especificado un id de producto.");
+        return;
+    }
+    conexion.query("SELECT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID" + idProduct + ";", (error, result) => {
+        if (error) {
+          console.error("Error al realizar la consulta: ", error);
+          res.send(error);
+          return;
         }
         res.send(result);
-    });*/
+    });
 });
+
+//app.post("/get-product", (req, res) => {}); por el momento no encuentro que sea necesario.
 
 //#endregion
 
