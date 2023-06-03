@@ -172,7 +172,11 @@ app.get("/get-product", (req, res) => {
           console.error("Error al realizar la consulta: ", error);
           return;
         }
+        console.log("resultado sin stringify");
+        console.log(result1);
+        console.log("resultado stringify")
         product = JSON.stringify(result1);
+        console.log(product);
         
     });
 
@@ -197,6 +201,9 @@ app.get("/get-product", (req, res) => {
       "colores": colores,
       "tallas": tallas
     }
+
+    console.log("JSON respuesta: ");
+    console.log(JSON_respuesta);
 
     res.send(JSON_respuesta);
 
