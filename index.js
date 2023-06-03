@@ -172,7 +172,7 @@ app.get("/get-product", (req, res) => {
           console.error("Error al realizar la consulta: ", error);
           return;
         }
-        product = result1;
+        product = JSON.stringify(result1);
         
     });
 
@@ -181,7 +181,7 @@ app.get("/get-product", (req, res) => {
           console.error("Error al realizar la consulta: ", error);
           return;
         }
-        colores = result2;
+        colores = JSON.stringify(result2);
     });
 
     conexion.query("SELECT DISTINCT SIZES.SIZE_NAME, SIZES.SIZE_ID FROM SIZES, INVENTORY, PRODUCTS WHERE INVENTORY.SIZE_ID = SIZES.SIZE_ID"+idProductINV+";", (error, result3) => {
@@ -189,7 +189,7 @@ app.get("/get-product", (req, res) => {
         console.error("Error al realizar la consulta: ", error);
         return;
       }
-      tallas = result3;
+      tallas = JSON.stringify(result3);
     });
 
     var JSON_respuesta = {
