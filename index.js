@@ -149,6 +149,7 @@ app.get("/get-product", (req, res) => {
     let idProduct = " ";
     if(req.headers.id != undefined && req.headers.id != null){
         idProduct = " AND PRODUCTS.PRODUCT_ID = '" + req.headers.id + "'";
+        idProductINV = " AND INVENTORY.PRODUCT_ID = '" + req.headers.id + "'";
     }
     else{
         res.send("No se ha especificado un id de producto.");
@@ -162,15 +163,40 @@ app.get("/get-product", (req, res) => {
         }
         res.send(result);
     });*/
+    var product;
 
-    conexion.query("SELECT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION, INVENTORY.SIZE_ID, INVENTORY.COLOR_ID FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+idProduct+";", (error, result) => {
+    conexion.query("SELECT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION, INVENTORY.SIZE_ID, INVENTORY.COLOR_ID FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+idProduct+";", (error, result1) => {
         if (error) {
           console.error("Error al realizar la consulta: ", error);
-          res.send(error);
           return;
         }
-        res.send(result);
+        product = result1;
+        
     });
+
+    conexion.query("SELECT DISTINCT COLORS.COLOR_NAME, COLORS.COLOR_ID FROM COLORS, INVENTORY, PRODUCTS WHERE INVENTORY.COLOR_ID = COLORS.COLOR_ID"+idProductINV+";", (error, result2) => {
+        if (error) {
+          console.error("Error al realizar la consulta: ", error);
+          return;
+        }
+        colores = result2;
+    });
+
+    conexion.query("SELECT DISTINCT SIZES.SIZE_NAME, SIZES.SIZE_ID FROM SIZES, INVENTORY, PRODUCTS WHERE INVENTORY.SIZE_ID = SIZES.SIZE_ID"+idProductINV+";", (error, result3) => {
+      if (error){
+        console.error("Error al realizar la consulta: ", error);
+        return;
+      }
+      tallas = result3;
+    });
+
+    var JSON_respuesta = {
+      "producto": product,
+      "colores": colores,
+      "tallas": tallas
+    }
+
+    res.send(JSON_respuesta);
 
 });
 
