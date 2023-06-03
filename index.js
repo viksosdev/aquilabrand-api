@@ -198,7 +198,7 @@ app.get("/get-product", (req, res) => {
       "tallas": tallas
     }
 
-    res.send(JSON_respuesta);
+    res.send(JSON.parse(JSON_respuesta));
 
 });
 
