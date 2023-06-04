@@ -163,7 +163,7 @@ app.get("/get-product", (req, res) => {
         }
         res.send(result);
     });*/
-    var JSON_respuesta;
+    const JSON_respuesta = new JSON();
     var product;
     var colores;
     var tallas;
