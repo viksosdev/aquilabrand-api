@@ -147,6 +147,7 @@ app.post("/transactions", (req, res) => {
 app.get("/get-product", (req, res) => {
     //obtener producto especifico.
     let idProduct = " ";
+    let idProductINV = " ";
     if(req.headers.id != undefined && req.headers.id != null){
         idProduct = " AND PRODUCTS.PRODUCT_ID = '" + req.headers.id + "'";
         idProductINV = " AND INVENTORY.PRODUCT_ID = '" + req.headers.id + "'";
