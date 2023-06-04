@@ -11,6 +11,7 @@ conexion = mysql.createConnection({
   user: "coitoscrew",
   password: "coitosporsiempre2023",
   database: "aquilabrand",
+  multipleStatements: true
 });
 
 conexion.connect((error) => {
