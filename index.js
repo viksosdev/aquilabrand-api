@@ -155,58 +155,15 @@ app.get("/get-product", (req, res) => {
         res.send("No se ha especificado un id de producto.");
         return;
     }
-    /*conexion.query("SELECT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID" + idProduct + " LIMIT 1;", (error, result) => {
+    conexion.query("SELECT INVENTORY.INVENTORY_ID, PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION, INVENTORY.SIZE_ID, INVENTORY.COLOR_ID FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+idProduct+"; SELECT DISTINCT COLORS.COLOR_NAME, COLORS.COLOR_ID FROM COLORS, INVENTORY, PRODUCTS WHERE INVENTORY.COLOR_ID = COLORS.COLOR_ID"+idProductINV+"; SELECT DISTINCT SIZES.SIZE_NAME, SIZES.SIZE_ID FROM SIZES, INVENTORY, PRODUCTS WHERE INVENTORY.SIZE_ID = SIZES.SIZE_ID"+idProductINV+"; ", (error, result) => {
         if (error) {
           console.error("Error al realizar la consulta: ", error);
           res.send(error);
           return;
         }
         res.send(result);
-    });*/
-    let JSON_respuesta;
-    var product;
-    var colores;
-    var tallas;
-
-    conexion.query("SELECT INVENTORY.INVENTORY_ID, PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION, INVENTORY.SIZE_ID, INVENTORY.COLOR_ID FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+idProduct+";", (error, result1) => {
-        if (error) {
-          console.error("Error al realizar la consulta: ", error);
-          return;
-        }
-        console.log("resultado sin stringify");
-        console.log(result1);
-        console.log("resultado stringify")
-        product = JSON.stringify(result1);
-        console.log(product);
-
-        JSON_respuesta['product'].push(result1);
         
     });
-
-    conexion.query("SELECT DISTINCT COLORS.COLOR_NAME, COLORS.COLOR_ID FROM COLORS, INVENTORY, PRODUCTS WHERE INVENTORY.COLOR_ID = COLORS.COLOR_ID"+idProductINV+";", (error, result2) => {
-        if (error) {
-          console.error("Error al realizar la consulta: ", error);
-          return;
-        }
-        colores = JSON.stringify(result2);
-
-        JSON_respuesta['colores'].push(result2);
-    });
-
-    conexion.query("SELECT DISTINCT SIZES.SIZE_NAME, SIZES.SIZE_ID FROM SIZES, INVENTORY, PRODUCTS WHERE INVENTORY.SIZE_ID = SIZES.SIZE_ID"+idProductINV+";", (error, result3) => {
-      if (error){
-        console.error("Error al realizar la consulta: ", error);
-        return;
-      }
-      tallas = JSON.stringify(result3);
-
-      JSON_respuesta['tallas'].push(result3);
-    });
-
-    console.log("JSON respuesta: ");
-    console.log(JSON_respuesta);
-
-    res.send(JSON_respuesta);
 
 });
 
