@@ -132,7 +132,16 @@ app.get("/bd-productos", (req, res) => {
 
 app.post("/bd-productos", (req, res) => {
   //guardar productos en la base de datos
+  //obtener valores del php y enviar a la bd, debe ser por partes para que no ocurran errores en el sql.
+  //por ejemplo, crear primero el producto, despues su inventario con colores y tallas, subir su imagen (manejar con php).
+});
 
+app.post("/edit-colors", (req, res) => { //pendiente de la creacion de la pagina que permite editar informacion de productos y eventos
+  //editar colores
+});
+
+app.post("/edit-sizes", (req, res) => { //pendiente de la creacion de la pagina que permite editar informacion de productos y eventos
+  //editar tallas
 });
 
 //#endregion
@@ -169,9 +178,23 @@ app.get("/get-product", (req, res) => {
 
 });
 
+app.get("/events", (req, res) => { //pendiente de la creacion de la tabla en la db y pagina que permita crear/editar eventos
+  //codigo obtener eventos desde la bd
+
+});
+
+app.post("/events", (req, res) => { //pendiente de la creacion de la tabla en la db y pagina que permita crear/editar eventos
+  //codigo guardar eventos en la bd
+});
+
 //app.post("/get-product", (req, res) => {}); por el momento no encuentro que sea necesario.
 
 //#endregion
+
+/*app.on("error", (err) => { //reiniciar el servidor en caso de error, para evitar problemas en caso de un "fatal error" (aun en desarrollo)
+  console.error("Server error:", err);
+  app.restart();
+});*/
 
 app.listen(port, () => {
   console.log("AquilaBrand API server is currently running on port: " + port);
