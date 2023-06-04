@@ -163,6 +163,7 @@ app.get("/get-product", (req, res) => {
         }
         res.send(result);
     });*/
+    var JSON_respuesta;
     var product;
     var colores;
     var tallas;
@@ -177,6 +178,8 @@ app.get("/get-product", (req, res) => {
         console.log("resultado stringify")
         product = JSON.stringify(result1);
         console.log(product);
+
+        JSON_respuesta.append("product", product);
         
     });
 
@@ -186,6 +189,8 @@ app.get("/get-product", (req, res) => {
           return;
         }
         colores = JSON.stringify(result2);
+
+        JSON_respuesta.append("colores", colores);
     });
 
     conexion.query("SELECT DISTINCT SIZES.SIZE_NAME, SIZES.SIZE_ID FROM SIZES, INVENTORY, PRODUCTS WHERE INVENTORY.SIZE_ID = SIZES.SIZE_ID"+idProductINV+";", (error, result3) => {
@@ -194,13 +199,9 @@ app.get("/get-product", (req, res) => {
         return;
       }
       tallas = JSON.stringify(result3);
-    });
 
-    var JSON_respuesta = {
-      "producto": product,
-      "colores": colores,
-      "tallas": tallas
-    }
+      JSON_respuesta.append("tallas", tallas);
+    });
 
     console.log("JSON respuesta: ");
     console.log(JSON_respuesta);
