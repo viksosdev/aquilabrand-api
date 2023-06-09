@@ -42,7 +42,7 @@ const requestOptions = {
 };
 
 //#region final-checkout (obtener token)
-app.post("/final-checkout", (req, res) => {
+app.post("/checkout", (req, res) => {
   fetch(
     "https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions",
     {
@@ -67,7 +67,7 @@ app.post("/final-checkout", (req, res) => {
 //#endregion
 
 //#region payment-result (obtener datos de la transaccion)
-app.get("/final-checkout", (req, res) => {
+app.get("/checkout", (req, res) => {
   token = req.headers.token;
   fetch(
     "https://webpay3gint.transbank.cl/rswebpaytransaction/api/webpay/v1.2/transactions/" +
@@ -92,7 +92,7 @@ app.get("/final-checkout", (req, res) => {
 
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
-app.get("/bd-productos", (req, res) => {
+app.get("/products", (req, res) => {
     let categoria = " ";
     let seccion = " ";
     let color = " ";
@@ -130,7 +130,7 @@ app.get("/bd-productos", (req, res) => {
 
 });
 
-app.post("/bd-productos", (req, res) => {
+app.post("/products", (req, res) => {
   //guardar productos en la base de datos
   //obtener valores del php y enviar a la bd, debe ser por partes para que no ocurran errores en el sql.
   //por ejemplo, crear primero el producto, despues su inventario con colores y tallas, subir su imagen (manejar con php).
@@ -154,7 +154,7 @@ app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 });
 
-app.get("/get-product", (req, res) => {
+app.get("/product", (req, res) => {
     //obtener producto especifico.
     let idProduct = " ";
     let idProductINV = " ";
