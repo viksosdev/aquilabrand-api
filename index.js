@@ -152,6 +152,8 @@ app.get("/transactions", (req, res) => {
 
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
+
+    //falta
 });
 
 app.get("/product", (req, res) => {
@@ -178,8 +180,27 @@ app.get("/product", (req, res) => {
 
 });
 
-app.get("/events", (req, res) => { //pendiente de la creacion de la tabla en la db y pagina que permita crear/editar eventos
-  //codigo obtener eventos desde la bd
+app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la db y pagina que permita crear/editar eventos
+  //codigo obtener evento especifico desde la bd
+
+  let event_id = " ";
+  if(req.headers.id != undefined && req.headers.id != null){
+      event_id = " WHERE EVENTS.EVENT_ID = '" + req.headers.id + "';";
+  }
+  else{
+      res.send(error, "No se ha especificado un id de evento.");
+      return;
+  }
+
+  conexion.query("SELECT EVENTS.EVENT_ID, EVENTS.EVENT_NAME, EVENTS.EVENT_DESCRIPTION, EVENTS.EVENT_ADDRESS, EVENT_DATE, EVENT_TIME FROM EVENTS "+event_id+" ';", (error, result) => {
+    if(error){
+      console.error("Error al realizar la consulta: ", error);
+      res.send(error);
+      return;
+    }
+    res.send(result);
+  
+  });
 
 });
 
