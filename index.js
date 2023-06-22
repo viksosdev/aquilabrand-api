@@ -188,7 +188,7 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
       event_id = " WHERE EVENTS.EVENT_ID = '" + req.headers.id + "';";
   }
   else{
-      res.send(error, "No se ha especificado un id de evento.");
+      res.send("No se ha especificado un id de evento.");
       return;
   }
 
