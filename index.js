@@ -189,7 +189,6 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
   }
   else{
       res.send("No se ha especificado un id de evento.");
-      return;
   }
 
   conexion.query("SELECT EVENTS.EVENT_ID, EVENTS.EVENT_NAME, EVENTS.EVENT_DESCRIPTION, EVENTS.EVENT_ADDRESS, EVENT_DATE, EVENT_TIME FROM EVENTS "+event_id+" ';", (error, result) => {
