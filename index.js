@@ -198,6 +198,7 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
       res.send(error);
       return;
     }
+    console.log(result);
     res.send(result);
   
   });
