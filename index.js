@@ -93,21 +93,13 @@ app.get("/checkout", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/products", (req, res) => {
-    let categoria = " ";
-    let seccion = " ";
-    let color = " ";
-    let talla = " ";
+    let categoria = "all";
+    let seccion = "all";
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
-  if (req.headers.color != undefined && req.headers.color != null && req.headers.color != "0") {
-    color = " AND COLORS.COLOR_NAME = '" + req.headers.color + "'";
-  }
-  if (req.headers.size != undefined && req.headers.size != null && req.headers.size != "0") {
-    talla = " AND SIZES.SIZE_NAME = '" + req.headers.size + "'";
-  }
-  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "0") {
+  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all") {
     categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
   }
-  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "0") {
+  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all") {
     seccion = " AND SECTION.SECTION_NAME = '" + req.headers.section + "'";
   }
 
@@ -115,8 +107,6 @@ app.get("/products", (req, res) => {
     "SELECT DISTINCT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID" +
       categoria +
       seccion +
-      color +
-      talla +
       ";",
     (error, result) => {
       if (error) {
