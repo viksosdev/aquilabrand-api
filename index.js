@@ -93,8 +93,8 @@ app.get("/checkout", (req, res) => {
 //#region bd-productos (obtener y subir datos de productos de la bd)
 
 app.get("/products", (req, res) => {
-    let categoria = "all";
-    let seccion = "all";
+    let categoria = " ";
+    let seccion = " ";
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
   if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all") {
     categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
