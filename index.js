@@ -177,9 +177,6 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
   if(req.headers.id != undefined && req.headers.id != null){
       event_id = " WHERE EVENTS.EVENT_ID = '" + req.headers.id + "';";
   }
-  else{
-      res.send("No se ha especificado un id de evento.");
-  }
 
   conexion.query("SELECT EVENTS.EVENT_ID, EVENTS.EVENT_NAME, EVENTS.EVENT_DESCRIPTION, EVENTS.EVENT_ADDRESS, EVENT_DATE, EVENT_TIME FROM EVENTS "+event_id+";", (error, result) => {
     if(error){
