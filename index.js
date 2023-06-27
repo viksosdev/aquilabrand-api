@@ -107,7 +107,7 @@ app.get("/products", (req, res) => {
     "SELECT DISTINCT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID" +
       categoria +
       seccion +
-      ";",
+      " ORDER BY PRODUCTS.PRODUCT_ID DESC;",
     (error, result) => {
       if (error) {
         console.error("Error al realizar la consulta: ", error);
@@ -118,6 +118,19 @@ app.get("/products", (req, res) => {
     }
   );
 
+});
+
+app.get("/featured", (req, res) => {
+  conexion.query(
+    "SELECT DISTINCT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID AND PRODUCTS.FEATURED = '0' ORDER BY PRODUCTS.PRODUCT_ID DESC;",
+  (error, result) => {
+    if (error){
+      console.error("Error al realizar la consulta: ", error);
+      res.send(error);
+      return;
+    }
+    res.send(result);
+  });
 });
 
 app.post("/products", (req, res) => {
@@ -178,7 +191,7 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
       event_id = " WHERE EVENTS.EVENT_ID = '" + req.headers.id + "';";
   }
 
-  conexion.query("SELECT EVENTS.EVENT_ID, EVENTS.EVENT_NAME, EVENTS.EVENT_DESCRIPTION, EVENTS.EVENT_ADDRESS, EVENT_DATE, EVENT_TIME FROM EVENTS "+event_id+";", (error, result) => {
+  conexion.query("SELECT EVENTS.EVENT_ID, EVENTS.EVENT_NAME, EVENTS.EVENT_DESCRIPTION, EVENTS.EVENT_ADDRESS, EVENT_DATE, EVENT_TIME FROM EVENTS "+event_id+" ORDER BY EVENTS.EVENT_ID DESC;", (error, result) => {
     if(error){
       console.error("Error al realizar la consulta: ", error);
       res.send(error);
