@@ -163,15 +163,31 @@ app.post("/transactions", (req, res) => {
     const webpay = "'"+token+"'";
 
     const query = "INSERT INTO TRANSACTIONS VALUES ( NULL , "+carro+" , "+webpay+");"
-    conexion.query(query, (error, result) => {
+
+    const queryDup = "SELECT * FROM TRANSACTIONS WHERE TOKEN_WEBPAY = "+webpay+";"
+
+    conexion.query(queryDup, (error, result) => {
         if (error){
-            console.error("Error al guardar: ", error);
-            res.send(error);
-            return;
+          console.error("Error al guardar: ", error);
+          res.send(error);
+          return;
         }
-        res.send(result);
+        if(result.length > 0){
+          res.send("Ya existe una transaccion con este token.");
+          return;
+        }
+        else{
+          conexion.query(query, (error, result) => {
+            if (error){
+                console.error("Error al guardar: ", error);
+                res.send(error);
+                return;
+            }
+            res.send(result);
+          })
+        }
+        
     })
-    //falta
 });
 
 app.get("/product", (req, res) => {
