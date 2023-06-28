@@ -159,7 +159,10 @@ app.post("/transactions", (req, res) => {
     const bolsa = req.headers.bolsa;
     const token = req.headers.token;
 
-    conexion.query("INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL, "+bolsa+" , '"+token+"';", (error, result) => {
+    console.log(bolsa);
+
+    const query = "INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL, (?) , '"+token+"';"
+    conexion.query(query, [bolsa], (error, result) => {
         if (error){
             console.error("Error al guardar: ", error);
             res.send(error);
