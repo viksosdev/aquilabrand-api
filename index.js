@@ -156,7 +156,7 @@ app.get("/transactions", (req, res) => {
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 
-    const bolsa = req.headers.bolsa;
+    const bolsa = JSON.parse(req.headers.bolsa);
     const token = req.headers.token;
 
     console.log(bolsa);
