@@ -184,7 +184,7 @@ app.post("/transactions", (req, res) => {
                 return;
             }
             res.send(result);
-          })
+          });
         }
         
     })
