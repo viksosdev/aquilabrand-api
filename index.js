@@ -156,13 +156,14 @@ app.get("/transactions", (req, res) => {
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 
-    const bolsa = JSON.parse(req.headers.bolsa);
+    let bolsa = req.headers.bolsa;
     const token = req.headers.token;
 
-    console.log(bolsa);
+    const carro = "'"+bolsa+"'";
+    const webpay = "'"+token+"'";
 
-    const query = "INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL, (?) , '"+token+"';"
-    conexion.query(query, [bolsa], (error, result) => {
+    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL , "+carro+" , "+webpay+");"
+    conexion.query(query, (error, result) => {
         if (error){
             console.error("Error al guardar: ", error);
             res.send(error);
