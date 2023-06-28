@@ -156,7 +156,10 @@ app.get("/transactions", (req, res) => {
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 
-    conexion.query("INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL, '"+req.body.bolsa+"' , '"+req.body.token+"';", (error, result) => {
+    const bolsa = JSON.stringify(req.headers.bolsa);
+    const token = JSON.stringify(req.headers.token);
+
+    conexion.query("INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL, '"+bolsa+"' , '"+token+"';", (error, result) => {
         if (error){
             console.error("Error al guardar: ", error);
             res.send(error);
