@@ -155,7 +155,7 @@ app.get("/transactions", (req, res) => {
 
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
-    const bolsaDeCompra = JSON.parse(req.headers.bolsaDeCompra);
+    const bolsaDeCompra = req.headers.bolsaDeCompra;
     const token = req.headers.token;
 
     conexion.query("INSERT INTO `TRANSACTIONS` (`TRANSACTION_ID`, `INFO`, `TOKEN_WEBPAY`) VALUES (NULL,"+bolsaDeCompra+", "+token+") ", (error, result) => {
