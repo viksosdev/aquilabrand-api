@@ -429,13 +429,13 @@ app.get("/transactions", (req, res) => {
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 
-    let bolsa = req.headers.bolsa;
+    const bolsa = req.body;
     const token = req.headers.token;
 
-    const carro = "'"+bolsa+"'";
+    const carro = JSON.stringify(bolsa);
     const webpay = "'"+token+"'";
 
-    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL , "+carro+" , "+webpay+");"
+    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL , '"+carro+"' , "+webpay+");"
 
     const queryDup = "SELECT * FROM TRANSACTIONS WHERE TOKEN_WEBPAY = "+webpay+";"
 
