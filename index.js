@@ -560,3 +560,19 @@ app.listen(port, () => {
 });
 
 //#endregion PUERTO
+
+//#region Regiones
+
+app.get("/region", (req, res) => {
+
+  const query = "SELECT COMUNA.COMUNA_ID, COMUNA.REGION_ID, COMUNA.COMUNA_NOMBRE, COMUNA.COSTO_ENVIO, REGION.REGION_NOMBRE FROM COMUNA, REGION WHERE REGION.REGION_ID = COMUNA.REGION_ID ORDER BY COMUNA.COMUNA_ID ASC; SELECT * FROM REGION ORDER BY REGION.REGION_ID;"
+
+  conexion.query(query, (error, result) => {
+    if(error){
+      console.log("Error al realizar la consulta: ", error);
+      res.send(error);
+      return;
+    }
+    res.send(result);
+  });
+});
