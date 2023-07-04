@@ -127,6 +127,41 @@ app.get("/products", (req, res) => {
 
 });
 
+app.get("/images", (req, res) => {
+  let categoria = " ";
+  let seccion = " ";
+  let producto = " ";
+  let featured = " ";
+
+  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all") {
+    categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
+  }
+  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all") {
+    seccion = " AND SECTION.SECTION_NAME = '" + req.headers.section + "'";
+  }
+  if (req.headers.product != undefined && req.headers.product != null && req.headers.product != "all") {
+    producto = " AND IMAGES.PRODUCT_ID = '" + req.headers.product + "'";
+  }
+  if (req.headers.featured != undefined && req.headers.featured != null && req.headers.featured != "all") {
+    featured = " AND PRODUCTS.FEATURED = '1'";
+  }
+  const query = "SELECT DISTINCT IMAGES.IMAGE_ID, IMAGES.PRODUCT_ID, IMAGES.COLOR_ID, COLORS.COLOR_NAME, IMAGES.IMAGE, IMAGES.IMAGE_2, IMAGES.IMAGE_3 FROM IMAGES, PRODUCTS, INVENTORY, COLORS,CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND COLORS.COLOR_ID = IMAGES.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+
+  categoria +
+  seccion +
+  producto +
+  featured +
+  "ORDER BY IMAGES.PRODUCT_ID ASC;"
+
+  conexion.query(query, (error, result) => {
+    if(error){
+      console.error("Error al realizar la consulta: ", error);
+      res.send(error);
+      return;
+    }
+    res.send(result);
+  });
+});
+
 app.get("/featured", (req, res) => {
   conexion.query(
     "SELECT DISTINCT PRODUCTS.PRODUCT_ID, PRODUCTS.PRODUCT_NAME, INVENTORY.PRECIO, PRODUCTS.PRODUCT_DESCRIPTION FROM PRODUCTS, INVENTORY, COLORS, SIZES, CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND INVENTORY.SIZE_ID = SIZES.SIZE_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID AND PRODUCTS.FEATURED = '1' ORDER BY PRODUCTS.PRODUCT_ID DESC;",
