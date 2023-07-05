@@ -474,12 +474,8 @@ app.post("/transactions", (req, res) => {
     const cliente = req.body.cliente;
     const info_cliente = JSON.stringify(cliente);
 
-
-
     const carro = JSON.stringify(bolsa);
     const webpay = "'"+token+"'";
-
-    console.log(info_cliente)
 
     const query = "INSERT INTO TRANSACTIONS VALUES ( NULL, '"+info_cliente+"' , '"+carro+"' , "+webpay+");"
 
