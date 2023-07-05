@@ -39,7 +39,11 @@ app.use(
   })
 );
 
-app.use(cors());
+app.use(cors(
+  {
+    origin: "http://localhost:5173"
+  }
+));
 
 //#endregion Server
 
@@ -464,13 +468,20 @@ app.get("/transactions", (req, res) => {
 app.post("/transactions", (req, res) => {
     //guardar transacciones realizadas.
 
-    const bolsa = req.body;
+    const bolsa = req.body.bolsa;
     const token = req.headers.token;
+
+    const cliente = req.body.cliente;
+    const info_cliente = JSON.stringify(cliente);
+
+
 
     const carro = JSON.stringify(bolsa);
     const webpay = "'"+token+"'";
 
-    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL , '"+carro+"' , "+webpay+");"
+    console.log(info_cliente)
+
+    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL, '"+info_cliente+"' , '"+carro+"' , "+webpay+");"
 
     const queryDup = "SELECT * FROM TRANSACTIONS WHERE TOKEN_WEBPAY = "+webpay+";"
 
