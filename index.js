@@ -448,13 +448,13 @@ app.delete("/inventory", (req, res) => {
 
 app.get("/transactions", (req, res) => {
     //obtener transacciones realizadas.
-  let id = " ";
+  let token = " ";
 
-  if (req.headers.id != undefined && req.headers.id != null && req.headers.id != "all") {
-    id = " WHERE TRANSACTIONS.TRANSACTION_ID = '" + req.headers.id+"'"
+  if (req.headers.token != undefined && req.headers.token != null && req.headers.token != "all") {
+    token = " WHERE TRANSACTIONS.TOKEN_WEBPAY = '" + req.headers.token+"'"
   }
 
-  const query = "SELECT * FROM TRANSACTIONS "+id;
+  const query = "SELECT * FROM TRANSACTIONS "+token;
   conexion.query(query, (error, result) => {
     if(error){
       console.error("Error al realizar la consulta: ", error);
