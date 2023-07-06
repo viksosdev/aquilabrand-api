@@ -107,10 +107,10 @@ app.get("/products", (req, res) => {
     let categoria = " ";
     let seccion = " ";
   //obtener productos y carritos de compra de la bd, LOS VALORES EN EL header DEBEN VENIR CON LOS NOMBRES, NO LOS ID'S.
-  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all") {
+  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all" && req.headers.category != "undefined") {
     categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
   }
-  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all") {
+  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all" && req.headers.section != "undefined") {
     seccion = " AND SECTION.SECTION_NAME = '" + req.headers.section + "'";
   }
 
@@ -125,6 +125,7 @@ app.get("/products", (req, res) => {
         res.send(error);
         return;
       }
+      console.log(result)
       res.send(result);
     }
   );
@@ -137,16 +138,16 @@ app.get("/images", (req, res) => {
   let producto = " ";
   let featured = " ";
 
-  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all") {
+  if (req.headers.category != undefined && req.headers.category != null && req.headers.category != "all" && req.headers.category != "undefined") {
     categoria = " AND CATEGORY.CATEGORY_NAME = '" + req.headers.category + "'";
   }
-  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all") {
+  if (req.headers.section != undefined && req.headers.section != null && req.headers.section != "all" && req.headers.section != "undefined") {
     seccion = " AND SECTION.SECTION_NAME = '" + req.headers.section + "'";
   }
-  if (req.headers.product != undefined && req.headers.product != null && req.headers.product != "all") {
+  if (req.headers.product != undefined && req.headers.product != null && req.headers.product != "all" && req.headers.product != "undefined") {
     producto = " AND IMAGES.PRODUCT_ID = '" + req.headers.product + "'";
   }
-  if (req.headers.featured != undefined && req.headers.featured != null && req.headers.featured != "all") {
+  if (req.headers.featured != undefined && req.headers.featured != null && req.headers.featured != "all" && req.headers.featured != "undefined") {
     featured = " AND PRODUCTS.FEATURED = '1'";
   }
   const query = "SELECT DISTINCT IMAGES.IMAGE_ID, IMAGES.PRODUCT_ID, IMAGES.COLOR_ID, COLORS.COLOR_NAME, IMAGES.IMAGE, IMAGES.IMAGE_2, IMAGES.IMAGE_3 FROM IMAGES, PRODUCTS, INVENTORY, COLORS,CATEGORY, SECTION WHERE INVENTORY.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND INVENTORY.COLOR_ID = COLORS.COLOR_ID AND COLORS.COLOR_ID = IMAGES.COLOR_ID AND PRODUCTS.CATEGORY_ID = CATEGORY.CATEGORY_ID AND PRODUCTS.SECTION_ID = SECTION.SECTION_ID"+
