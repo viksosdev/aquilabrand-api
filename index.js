@@ -477,7 +477,7 @@ app.post("/transactions", (req, res) => {
     const carro = JSON.stringify(bolsa);
     const webpay = "'"+token+"'";
 
-    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL, '"+info_cliente+"' , '"+carro+"' , "+webpay+");"
+    const query = "INSERT INTO TRANSACTIONS VALUES ( NULL, '"+info_cliente+"' , '"+carro+"' , "+webpay+", '"+req.headers.estado+"');"
 
     const queryDup = "SELECT * FROM TRANSACTIONS WHERE TOKEN_WEBPAY = "+webpay+";"
 
@@ -503,6 +503,29 @@ app.post("/transactions", (req, res) => {
         }
         
     })
+});
+
+app.put("/transactions", (req, res) => {
+    //actualizar transacciones realizadas.
+    const token = req.headers.token;
+
+    const estado = req.headers.estado;
+
+    const query = "UPDATE TRANSACTIONS SET TRANSACTION_STATE = '"+estado+"' WHERE TOKEN_WEBPAY = '"+token+"';"
+
+    if(token == undefined || token == null || token == ""){
+      res.send("No se ha ingresado un token valido.");
+      return;
+    }
+
+    conexion.query(query, (error, result) => {
+      if (error){
+        console.error("Error al guardar: ", error);
+        res.send(error);
+        return;
+      }
+      res.send(result);
+    });
 });
 
 //#endregion TRANSACTIONS
