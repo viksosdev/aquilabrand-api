@@ -511,7 +511,7 @@ app.put("/transactions", (req, res) => {
 
     const estado = req.headers.estado;
 
-    const query = "UPDATE TRANSACTIONS SET TRANSACTION_STATE = '"+estado+"' WHERE TOKEN_WEBPAY = '"+token+"';"
+    const query = "UPDATE TRANSACTIONS SET ESTADO = '"+estado+"' WHERE TOKEN_WEBPAY = '"+token+"';"
 
     if(token == undefined || token == null || token == ""){
       res.send("No se ha ingresado un token valido.");
@@ -641,3 +641,5 @@ app.get("/region", (req, res) => {
     res.send(result);
   });
 });
+
+//#endregion Regiones
