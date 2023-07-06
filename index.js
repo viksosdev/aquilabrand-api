@@ -125,7 +125,6 @@ app.get("/products", (req, res) => {
         res.send(error);
         return;
       }
-      console.log(result)
       res.send(result);
     }
   );
