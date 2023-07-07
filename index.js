@@ -513,7 +513,7 @@ app.put("/transactions", (req, res) => {
 
     const query = "UPDATE TRANSACTIONS SET ESTADO = '"+estado+"' WHERE TOKEN_WEBPAY = '"+token+"';"
 
-    if(token == undefined || token == null || token == ""){
+    if(token == undefined || token == null || token == "" || token == "undefined"){
       res.send("No se ha ingresado un token valido.");
       return;
     }
