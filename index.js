@@ -9,19 +9,31 @@ const port = 3000;
 //#region DB Connection
 
 conexion = mysql.createConnection({
-  host: "db4free.net",
-  user: "coitoscrew",
-  password: "coitosporsiempre2023",
-  database: "aquilabrand",
+  host: "localhost",
+  user: "aquilabr_user",
+  password: "AquilaUser123",
+  database: "aquilabr_master",
   multipleStatements: true
 });
 
+
 conexion.connect((error) => {
   if (error) {
-    console.error("Error al conectar a la base de datos: ", error);
+    console.error("El error de conexión es: " + error);
     return;
   }
+  console.log("¡Conectado a la base de datos!");
 });
+
+/*
+conexion = mysql.createPool({
+  host: "localhost",
+  user: "aquilabr_user",
+  password: "AquilaUser123",
+  database: "aquilabr_master",
+  multipleStatements: true
+});
+*/
 
 //#endregion DB
 
@@ -39,12 +51,18 @@ app.use(
   })
 );
 
+const whiteList = ['https://aquilabrand.cl', 'http://aquilabrand.cl'];
+
 app.use(cors(
-  {
-    origin: "http://localhost:5173"
-  }
+  //{
+  //  origin: whiteList
+  //}
 ));
 
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
+  next()
+})
 //#endregion Server
 
 const requestOptions = {
@@ -383,19 +401,11 @@ app.get("/event", (req, res) => { //pendiente de la creacion de la tabla en la d
 
 //#endregion Eventos
 
-//#region PUERTO
-
-app.listen(port, () => {
-  console.log("AquilaBrand API server is currently running on port: " + port);
-});
-
-//#endregion PUERTO
-
 //#region Regiones
 
 app.get("/region", (req, res) => {
 
-  const query = "SELECT COMUNA.COMUNA_ID, COMUNA.REGION_ID, COMUNA.COMUNA_NOMBRE, COMUNA.COSTO_ENVIO, REGION.REGION_NOMBRE FROM COMUNA, REGION WHERE REGION.REGION_ID = COMUNA.REGION_ID ORDER BY COMUNA.COMUNA_ID ASC; SELECT * FROM REGION ORDER BY REGION.REGION_ID;"
+  const query = "SELECT COMUNA.COMUNA_ID, COMUNA.REGION_ID, COMUNA.COMUNA_NAME, COMUNA.COSTO_ENVIO, REGION.REGION_NAME FROM COMUNA, REGION WHERE REGION.REGION_ID = COMUNA.REGION_ID ORDER BY COMUNA.COMUNA_ID ASC; SELECT * FROM REGION ORDER BY REGION.REGION_ID;"
 
   conexion.query(query, (error, result) => {
     if(error){
@@ -408,3 +418,13 @@ app.get("/region", (req, res) => {
 });
 
 //#endregion Regiones
+
+//#region PUERTO
+
+app.listen(port, () => {
+  console.log("AquilaBrand API server is currently running on port: " + port);
+});
+
+//#endregion PUERTO
+
+
